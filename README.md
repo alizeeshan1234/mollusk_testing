@@ -509,6 +509,7 @@ fn test_comprehensive_validation() {
 }
 
 #[test]
+
 fn test_instruction_chain() {
     let mollusk = Mollusk::default();
     
