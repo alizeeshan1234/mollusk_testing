@@ -512,15 +512,12 @@ fn test_comprehensive_validation() {
 
 fn test_instruction_chain() {
     let mollusk = Mollusk::default();
-    
     let instructions = vec![
         create_initialize_instruction(),
         create_update_instruction(),
         create_finalize_instruction(),
     ];
-    
     let accounts = setup_test_accounts();
-    
     // Process chain of instructions
     let result = mollusk.process_instruction_chain(&instructions, &accounts);
     assert!(result.is_ok());
