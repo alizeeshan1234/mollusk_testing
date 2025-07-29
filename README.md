@@ -482,16 +482,13 @@ fn test_error_conditions() {
 
 Advanced Checks
 
-use mollusk_svm::result::Check;
-use solana_sdk::instruction::InstructionError;
-
 #[test]
 fn test_comprehensive_validation() {
+    use mollusk_svm::result::Check;
+    use solana_sdk::instruction::InstructionError;
     let mollusk = Mollusk::new(&MY_PROGRAM_ID, "target/deploy/my_program.so");
-    
     let instruction = create_test_instruction();
     let accounts = setup_test_accounts();
-    
     let checks = vec![
         Check::success(),
         Check::compute_units(5_000), // Expect specific compute usage
@@ -504,7 +501,6 @@ fn test_comprehensive_validation() {
             .owner(&pinocchio_token::id())
             .build(),
     ];
-    
     mollusk.process_and_validate_instruction(&instruction, &accounts, &checks);
 }
 
