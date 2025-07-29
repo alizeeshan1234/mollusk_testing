@@ -1,54 +1,62 @@
-Mollusk Testing Framework
+# Mollusk Testing Framework
+
 A beginner-friendly guide to testing Solana programs with Mollusk.
 
-Overview
+## Overview
+
 Mollusk is a fast and simple testing framework for Solana programs. Think of it as a mini Solana environment that runs your tests instantly without needing a full validator.
 
-Why use Mollusk?
+### Why use Mollusk?
 
-⚡ Super Fast: Tests run in milliseconds, not seconds
-🧪 Easy Testing: No complex setup required
-🔧 Simple API: Just a few methods to learn
-🎯 Focused: Test your program logic directly
+- ⚡ **Super Fast**: Tests run in milliseconds, not seconds
+- 🧪 **Easy Testing**: No complex setup required
+- 🔧 **Simple API**: Just a few methods to learn
+- 🎯 **Focused**: Test your program logic directly
 
-Installation
-Add Mollusk to your Cargo.toml:
+## Installation
 
+Add Mollusk to your `Cargo.toml`:
+
+```toml
 [dev-dependencies]
 mollusk-svm = "0.4"
+```
 
-Quick Start:
+## Quick Start
 
+```rust
 mod testing {
+    use mollusk_svm::Mollusk;
+    use solana_sdk::pubkey::Pubkey;
 
-use mollusk_svm::Mollusk;
-use solana_sdk::pubkey::Pubkey;
+    const MY_PROGRAM_ID: Pubkey = solana_sdk::pubkey!("YourProgramId11111111111111111111111111111");
 
-const MY_PROGRAM_ID: Pubkey = solana_sdk::pubkey!("YourProgramId11111111111111111111111111111");
-
-#[test]
-fn my_first_test() {
-    let mollusk = Mollusk::new(&MY_PROGRAM_ID, "target/deploy/my_program.so");
-    // Your test logic here
+    #[test]
+    fn my_first_test() {
+        let mollusk = Mollusk::new(&MY_PROGRAM_ID, "target/deploy/my_program.so");
+        // Your test logic here
+    }
 }
+```
 
-}
+## Table of Contents
 
-Table of Contents
+1. [Getting Started](#getting-started)
+2. [Creating Mollusk Instances](#creating-mollusk-instances)
+3. [Adding Your Program](#adding-your-program)
+4. [Working with Token Programs](#working-with-token-programs)
+5. [Setting Up Instructions](#setting-up-instructions)
+6. [Managing Accounts](#managing-accounts)
+7. [Execution & Validation](#execution--validation)
+8. [Advanced Features](#advanced-features)
+9. [Best Practices](#best-practices)
+10. [Contributing](#contributing)
 
-1. Getting Started
-2. Creating Mollusk Instances
-3. Adding Your Program
-4. Working with Token Programs
-5. Setting Up Instructions
-6. Managing Accounts
-7. Execution & Validation
-8. Advanced Features
-9. Best Practices
-10. Contributing
+## Getting Started
 
-Your First Test: 
+### Your First Test
 
+```rust
 use mollusk_svm::{Mollusk, result::Check};
 use solana_sdk::{
     account::Account,
@@ -85,11 +93,13 @@ fn test_my_program() {
     let result = mollusk.process_instruction(&instruction, &accounts);
     assert!(result.is_ok());
 }
+```
 
-Creating Mollusk Instances: 
+## Creating Mollusk Instances
 
-Basic Setup: 
+### Basic Setup
 
+```rust
 use mollusk_svm::Mollusk;
 use solana_sdk::pubkey::Pubkey;
 
@@ -104,9 +114,11 @@ fn test_my_program() {
     
     // Your test logic here
 }
+```
 
-Using Built-in Programs:
+### Using Built-in Programs
 
+```rust
 #[test]
 fn test_with_builtins() {
     // Creates Mollusk with default builtin programs (System, etc.)
@@ -114,9 +126,11 @@ fn test_with_builtins() {
     
     // Your test logic here
 }
+```
 
-Configuration Methods: 
+### Configuration Methods
 
+```rust
 use mollusk_svm::Mollusk;
 use solana_sdk::feature_set::FeatureSet;
 
@@ -132,11 +146,13 @@ fn test_with_custom_config() {
     
     // Add sysvars (handled automatically in most cases)
 }
+```
 
-Adding Your Program: 
+## Adding Your Program
 
-Loading Your Program: 
+### Loading Your Program
 
+```rust
 use mollusk_svm::Mollusk;
 use solana_sdk::pubkey::Pubkey;
 
@@ -151,9 +167,11 @@ fn test_program_loading() {
     let program_data = std::fs::read("target/deploy/my_program.so").unwrap();
     let mollusk = Mollusk::new(&PROGRAM_ID, &program_data);
 }
+```
 
-Adding Additional Programs
+### Adding Additional Programs
 
+```rust
 #[test]
 fn test_with_multiple_programs() {
     let mut mollusk = Mollusk::new(&PROGRAM_ID, "target/deploy/my_program.so");
@@ -162,10 +180,12 @@ fn test_with_multiple_programs() {
     mollusk.add_program(&OTHER_PROGRAM_ID, "path/to/other_program.so");
     mollusk.add_program(&THIRD_PROGRAM_ID, &program_bytes);
 }
+```
 
-Program Deployment Patterns
+### Program Deployment Patterns
 
-//Common pattern for program testing setup
+```rust
+// Common pattern for program testing setup
 fn setup_mollusk() -> Mollusk {
     let mollusk = Mollusk::new(&PROGRAM_ID, "target/deploy/my_program.so");
     
@@ -183,11 +203,15 @@ fn setup_mollusk_with_builtins() -> Mollusk {
     
     mollusk
 }
+```
 
-Working with Token Programs
-Basic Token Setup
-The Token Program is included in Mollusk::default(). Here's how to create token accounts using Pinocchio Token:
+## Working with Token Programs
 
+### Basic Token Setup
+
+The Token Program is included in `Mollusk::default()`. Here's how to create token accounts using Pinocchio Token:
+
+```rust
 use pinocchio_token::state::{Account as TokenAccount, Mint};
 use solana_sdk::{account::Account, rent::Rent};
 
@@ -254,9 +278,11 @@ fn create_token_account(mint: &Pubkey, owner: &Pubkey, amount: u64) -> Account {
         rent_epoch: 0,
     }
 }
+```
 
-Associated Token Accounts: 
+### Associated Token Accounts
 
+```rust
 use pinocchio_token::get_associated_token_address;
 
 #[test]
@@ -277,11 +303,13 @@ fn test_with_associated_token_accounts() {
         (ata, ata_account),
     ];
 }
+```
 
-Setting Up Instructions: 
+## Setting Up Instructions
 
-Creating Basic Instructions: 
+### Creating Basic Instructions
 
+```rust
 use solana_sdk::instruction::{AccountMeta, Instruction};
 
 #[test]
@@ -311,9 +339,11 @@ fn test_instruction_creation() {
     
     // Now you can use this instruction in tests
 }
+```
 
-Working with Pinocchio Account Data
+### Working with Pinocchio Account Data
 
+```rust
 use pinocchio::{account_info::AccountInfo, program_error::ProgramError};
 
 // Define your Pinocchio program's account structure
@@ -345,11 +375,13 @@ fn create_pinocchio_program_account(authority: &Pubkey, value: u64) -> Account {
         rent_epoch: 0,
     }
 }
+```
 
-Managing Accounts:
+## Managing Accounts
 
-Creating Simple Accounts
+### Creating Simple Accounts
 
+```rust
 use solana_sdk::{account::Account, system_program};
 
 // Create a basic user account with SOL
@@ -394,9 +426,11 @@ fn test_with_accounts() {
     
     // Use these accounts in your test
 }
+```
 
-Working with Account Data: 
+### Working with Account Data
 
+```rust
 use borsh::{BorshDeserialize, BorshSerialize};
 
 // Define your account data structure
@@ -424,11 +458,13 @@ fn create_initialized_account(authority: &Pubkey, value: u64) -> Account {
         rent_epoch: 0,
     }
 }
+```
 
-Execution & Validation
+## Execution & Validation
 
-Basic Execution: 
+### Basic Execution
 
+```rust
 use mollusk_svm::result::Check;
 
 #[test]
@@ -454,9 +490,11 @@ fn test_basic_execution() {
         &checks
     );
 }
+```
 
-Error Handling and Validation: 
+### Error Handling and Validation
 
+```rust
 use mollusk_svm::result::Check;
 
 #[test]
@@ -483,16 +521,23 @@ fn test_error_conditions() {
         &checks,
     );
 }
+```
 
-Advanced Checks
+## Advanced Features
+
+### Advanced Checks
+
+```rust
+use mollusk_svm::result::Check;
+use solana_sdk::instruction::InstructionError;
 
 #[test]
 fn test_comprehensive_validation() {
-    use mollusk_svm::result::Check;
-    use solana_sdk::instruction::InstructionError;
     let mollusk = Mollusk::new(&MY_PROGRAM_ID, "target/deploy/my_program.so");
+    
     let instruction = create_test_instruction();
     let accounts = setup_test_accounts();
+    
     let checks = vec![
         Check::success(),
         Check::compute_units(5_000), // Expect specific compute usage
@@ -505,32 +550,44 @@ fn test_comprehensive_validation() {
             .owner(&pinocchio_token::id())
             .build(),
     ];
+    
     mollusk.process_and_validate_instruction(&instruction, &accounts, &checks);
 }
+```
 
+### Instruction Chains
+
+```rust
 #[test]
-
 fn test_instruction_chain() {
     let mollusk = Mollusk::default();
+    
     let instructions = vec![
         create_initialize_instruction(),
         create_update_instruction(),
         create_finalize_instruction(),
     ];
+    
     let accounts = setup_test_accounts();
+    
     // Process chain of instructions
     let result = mollusk.process_instruction_chain(&instructions, &accounts);
     assert!(result.is_ok());
 }
+```
 
+## Best Practices
 
+1. **Use helper functions** for common account creation patterns
+2. **Test error conditions** as well as success cases
+3. **Validate account state changes** using the Check API
+4. **Keep tests focused** on specific functionality
+5. **Use meaningful test names** that describe what's being tested
 
+## Contributing
 
+Contributions are welcome! Please feel free to submit a Pull Request.
 
+## License
 
-
-
-
-
-
-
+This project is licensed under the MIT License - see the LICENSE file for details.
