@@ -583,11 +583,3 @@ fn test_instruction_chain() {
 3. **Validate account state changes** using the Check API
 4. **Keep tests focused** on specific functionality
 5. **Use meaningful test names** that describe what's being tested
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
