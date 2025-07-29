@@ -19,6 +19,8 @@ mollusk-svm = "0.4"
 
 Quick Start:
 
+mod testing {
+
 use mollusk_svm::Mollusk;
 use solana_sdk::pubkey::Pubkey;
 
@@ -28,6 +30,8 @@ const MY_PROGRAM_ID: Pubkey = solana_sdk::pubkey!("YourProgramId1111111111111111
 fn my_first_test() {
     let mollusk = Mollusk::new(&MY_PROGRAM_ID, "target/deploy/my_program.so");
     // Your test logic here
+}
+
 }
 
 Table of Contents
